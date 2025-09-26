@@ -42,3 +42,115 @@ ORDER BY 1;
 ### Insight
 Traffic dipped in February 2017 but quickly recovered in March, with transactions showing strong growth (up from 713 in Jan to 993 in Mar).
 <img width="671" height="133" alt="Screenshot 2025-09-26 at 19 18 12" src="https://github.com/user-attachments/assets/e988fbf6-fb64-4b22-a6ce-10c95afe5809" />
+
+---
+### Query 02: Bounce rate per traffic source in July 2017 
+```SQL
+SELECT
+    trafficSource.source as source
+    ,sum(totals.visits) as total_visits
+    ,sum(totals.Bounces) as total_no_of_bounces
+    ,(sum(totals.Bounces)/sum(totals.visits))* 100.00 as bounce_rate
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+GROUP BY source
+ORDER BY total_visits DESC;
+```
+| Source                     | Total Visits | Total Bounces | Bounce Rate (%) |
+|-----------------------------|--------------|---------------|-----------------|
+| google                      | 38400        | 19798         | 51.56           |
+| (direct)                    | 19891        | 8606          | 43.27           |
+| youtube.com                 | 6351         | 4238          | 66.73           |
+| analytics.google.com        | 1972         | 1064          | 53.96           |
+| Partners                    | 1788         | 936           | 52.35           |
+| m.facebook.com              | 669          | 430           | 64.28           |
+| google.com                  | 368          | 183           | 49.73           |
+| dfa                         | 302          | 124           | 41.06           |
+| sites.google.com            | 230          | 97            | 42.17           |
+| facebook.com                | 191          | 102           | 53.40           |
+| reddit.com                  | 189          | 54            | 28.57           |
+| qiita.com                   | 146          | 72            | 49.32           |
+| quora.com                   | 140          | 70            | 50.00           |
+| baidu                       | 140          | 84            | 60.00           |
+| bing                        | 111          | 54            | 48.65           |
+| mail.google.com             | 101          | 25            | 24.75           |
+| yahoo                       | 100          | 41            | 41.00           |
+| blog.golang.org             | 65           | 19            | 29.23           |
+| l.facebook.com              | 51           | 45            | 88.24           |
+| groups.google.com           | 50           | 22            | 44.00           |
+| t.co                        | 38           | 27            | 71.05           |
+| google.co.jp                | 36           | 25            | 69.44           |
+| m.youtube.com               | 34           | 22            | 64.71           |
+| dealspotr.com               | 26           | 12            | 46.15           |
+| productforums.google.com    | 25           | 21            | 84.00           |
+| support.google.com          | 24           | 16            | 66.67           |
+| ask                         | 24           | 16            | 66.67           |
+| int.search.tb.ask.com       | 23           | 17            | 73.91           |
+| optimize.google.com         | 21           | 10            | 47.62           |
+| docs.google.com             | 20           | 8             | 40.00           |
+| lm.facebook.com             | 18           | 9             | 50.00           |
+| l.messenger.com             | 17           | 6             | 35.29           |
+| duckduckgo.com              | 16           | 14            | 87.50           |
+| adwords.google.com          | 16           | 7             | 43.75           |
+| google.co.uk                | 15           | 7             | 46.67           |
+| sashihara.jp                | 14           | 8             | 57.14           |
+| lunametrics.com             | 13           | 8             | 61.54           |
+| search.mysearch.com         | 12           | 11            | 91.67           |
+| outlook.live.com            | 10           | 7             | 70.00           |
+| tw.search.yahoo.com         | 10           | 8             | 80.00           |
+| phandroid.com               | 9            | 7             | 77.78           |
+| connect.googleforwork.com   | 8            | 5             | 62.50           |
+| plus.google.com             | 8            | 2             | 25.00           |
+| m.yz.sm.cn                  | 7            | 5             | 71.43           |
+| search.xfinity.com          | 6            | 6             | 100.00          |
+| google.co.in                | 6            | 3             | 50.00           |
+| online-metrics.com          | 5            | 2             | 40.00           |
+| hangouts.google.com         | 5            | 1             | 20.00           |
+| s0.2mdn.net                 | 5            | 3             | 60.00           |
+| google.ru                   | 5            | 1             | 20.00           |
+| in.search.yahoo.com         | 4            | 2             | 50.00           |
+| googleads.g.doubleclick.net | 4            | 1             | 25.00           |
+| away.vk.com                 | 4            | 3             | 75.00           |
+| m.sogou.com                 | 4            | 3             | 75.00           |
+| m.baidu.com                 | 3            | 2             | 66.67           |
+| siliconvalley.about.com     | 3            | 2             | 66.67           |
+| getpocket.com               | 3            |               |                 |
+| github.com                  | 2            | 2             | 100.00          |
+| myactivity.google.com       | 2            | 1             | 50.00           |
+| plus.url.google.com         | 2            |               |                 |
+| centrum.cz                  | 2            | 2             | 100.00          |
+| search.1and1.com            | 2            | 2             | 100.00          |
+| amp.reddit.com              | 2            | 1             | 50.00           |
+| google.cl                   | 2            | 1             | 50.00           |
+| moodle.aurora.edu           | 2            | 2             | 100.00          |
+| uk.search.yahoo.com         | 2            | 1             | 50.00           |
+| m.sp.sm.cn                  | 2            | 2             | 100.00          |
+| au.search.yahoo.com         | 2            | 2             | 100.00          |
+| google.it                   | 2            | 1             | 50.00           |
+| wap.sogou.com               | 2            | 2             | 100.00          |
+| google.co.th                | 2            | 1             | 50.00           |
+| msn.com                     | 2            | 1             | 50.00           |
+| calendar.google.com         | 2            | 1             | 50.00           |
+| google.bg                   | 1            | 1             | 100.00          |
+| news.ycombinator.com        | 1            | 1             | 100.00          |
+| mx.search.yahoo.com         | 1            | 1             | 100.00          |
+| es.search.yahoo.com         | 1            | 1             | 100.00          |
+| it.pinterest.com            | 1            | 1             | 100.00          |
+| web.facebook.com            | 1            | 1             | 100.00          |
+| online.fullsail.edu         | 1            | 1             | 100.00          |
+| images.google.com.au        | 1            | 1             | 100.00          |
+| search.tb.ask.com           | 1            |               |                 |
+| ph.search.yahoo.com         | 1            |               |                 |
+| web.mail.comcast.net        | 1            | 1             | 100.00          |
+| arstechnica.com             | 1            |               |                 |
+| google.com.br               | 1            |               |                 |
+| suche.t-online.de           | 1            | 1             | 100.00          |
+| kidrex.org                  | 1            | 1             | 100.00          |
+| malaysia.search.yahoo.com   | 1            | 1             | 100.00          |
+| google.nl                   | 1            |               |                 |
+| newclasses.nyu.edu          | 1            |               |                 |
+| google.es                   | 1            | 1             | 100.00          |
+| earth.google.com            | 1            |               |                 |
+| aol                         | 1            |               |                 |
+| gophergala.com              | 1            | 1             | 100.00          |
+| google.ca                   | 1            |               |                 |
+| kik.com                     | 1            | 1             | 100.00          |
