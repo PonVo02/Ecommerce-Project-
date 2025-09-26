@@ -37,7 +37,8 @@ SELECT
 FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
 WHERE _TABLE_SUFFIX BETWEEN '0101' AND '0331'
 GROUP BY 1
-ORDER BY 1;```
+ORDER BY 1;
+```
 
 
 <img width="671" height="133" alt="Screenshot 2025-09-26 at 19 18 12" src="https://github.com/user-attachments/assets/e988fbf6-fb64-4b22-a6ce-10c95afe5809" />
