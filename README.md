@@ -28,7 +28,8 @@ This project analyzes an **E-commerce dataset** stored in **Google BigQuery**.  
 | hits.product.v2ProductName          | STRING    | The product name, as supplied by the retailer.                                                                                                                                                                                                                                              |
 ----
 ### Query 01: calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
-```SELECT
+```SQL
+SELECT
   format_date("%Y%m", parse_date("%Y%m%d", date)) as month,
   SUM(totals.visits) AS visits,
   SUM(totals.pageviews) AS pageviews,
