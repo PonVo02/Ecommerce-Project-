@@ -27,7 +27,7 @@ This project analyzes an **E-commerce dataset** stored in **Google BigQuery**.  
 | hits.product.productSKU             | STRING    | The product SKU (stock keeping unit).                                                                                                                                                                                                                                                       |
 | hits.product.v2ProductName          | STRING    | The product name, as supplied by the retailer.                                                                                                                                                                                                                                              |
 ----
-### Query 01: calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
+## Query 01: calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
 ```SQL
 SELECT
   format_date("%Y%m", parse_date("%Y%m%d", date)) as month,
@@ -44,7 +44,7 @@ Traffic dipped in February 2017 but quickly recovered in March, with transaction
 <img width="671" height="133" alt="Screenshot 2025-09-26 at 19 18 12" src="https://github.com/user-attachments/assets/e988fbf6-fb64-4b22-a6ce-10c95afe5809" />
 
 ---
-### Query 02: Bounce rate per traffic source in July 2017 
+## Query 02: Bounce rate per traffic source in July 2017 
 ```SQL
 SELECT
     trafficSource.source as source
@@ -165,3 +165,40 @@ ORDER BY total_visits DESC;
 - Improve landing pages for high-bounce sources (YouTube, Facebook).  
 - Focus on SEO/SEM to lower Google bounce rate.  
 - Invest more in low-bounce, high-quality channels (e.g., Reddit, email).  
+---
+## Query 3: Revenue by traffic source by week, by month in June 2017
+```SQL
+WITH revenue_bytime AS
+(
+    SELECT -- tổng doanh số theo tháng 
+    FORMAT_DATE('%Y%m', SAFE.PARSE_DATE('%Y%m%d', date)) AS time 
+    ,'Month' AS time_type
+    ,trafficSource.`source` AS `source`
+    ,SUM(product.productRevenue) / 1000000 AS revenue
+  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201706*`,
+  UNNEST (hits) AS hits,
+  UNNEST (hits.product) AS product
+  WHERE product.productRevenue IS NOT NULL
+  GROUP BY  time, `source`
+
+  UNION ALL
+
+  SELECT -- tổng doanh số theo tuần
+    FORMAT_DATE('%Y%W', SAFE.PARSE_DATE('%Y%m%d', date)) AS time
+    ,'Week' AS time_type 
+    ,trafficSource.`source` AS `source`
+    ,SUM(product.productRevenue) / 1000000  AS revenue
+  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201706*`,
+  UNNEST (hits) AS hits,
+  UNNEST (hits.product) AS product
+  WHERE product.productRevenue IS NOT NULL
+  GROUP BY time, `source`
+ )
+SELECT 
+  time_type 
+  ,time
+  ,`source`
+  ,revenue  AS revenue
+FROM revenue_bytime 
+ORDER BY revenue DESC, time_type, time;
+```
