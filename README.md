@@ -155,7 +155,7 @@ ORDER BY total_visits DESC;
 | google.ca                   | 1            |               |                 |
 | kik.com                     | 1            | 1             | 100.00          |
 
-### Insights
+## Insights
 - **Google search** is the main traffic driver (38K+ visits) but has a moderate bounce rate (~52%).  
 - **Direct traffic** ranks second (19K visits) with a healthier bounce rate (~43%), showing stronger user intent.  
 - **YouTube** drives fewer visits (6K) but has a high bounce rate (~67%), suggesting less engaged users.  
