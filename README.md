@@ -154,3 +154,14 @@ ORDER BY total_visits DESC;
 | gophergala.com              | 1            | 1             | 100.00          |
 | google.ca                   | 1            |               |                 |
 | kik.com                     | 1            | 1             | 100.00          |
+
+### Insights
+- **Google search** is the main traffic driver (38K+ visits) but has a moderate bounce rate (~52%).  
+- **Direct traffic** ranks second (19K visits) with a healthier bounce rate (~43%), showing stronger user intent.  
+- **YouTube** drives fewer visits (6K) but has a high bounce rate (~67%), suggesting less engaged users.  
+- **Social traffic** from Facebook (m.facebook.com, l.facebook.com) shows very high bounce rates (64–88%), indicating weak conversion potential.  
+- Some niche sources (e.g., **reddit.com, mail.google.com**) have lower bounce rates (<30%), meaning fewer users leave immediately.
+## Recommendations
+- Improve landing pages for high-bounce sources (YouTube, Facebook).  
+- Focus on SEO/SEM to lower Google bounce rate.  
+- Invest more in low-bounce, high-quality channels (e.g., Reddit, email).  
