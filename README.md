@@ -2,7 +2,10 @@
 [Dataset](https://console.cloud.google.com/bigquery?hl=vi&inv=1&invt=Ab1UAQ&project=my-project-sql-464309&ws=!1m5!1m4!4m3!1sbigquery-public-data!2sgoogle_analytics_sample!3sga_sessions_20170801)
 
 
-This project analyzes an **E-commerce dataset** stored in **Google BigQuery**.   The goal is to practice SQL skills and generate insights about: - User behavior and sessions - Traffic sources - Transactions &amp; revenue trends
+This project analyzes an **E-commerce dataset** stored in **Google BigQuery**.   The goal is to practice SQL skills and generate insights about: 
+- User behavior and sessions
+- Traffic sources 
+- Transactions &amp; revenue trends
 | Field Name                          | Data Type | Description                                                                                                                                                                                                                                                                                 |
 |-------------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | fullVisitorId                       | STRING    | The unique visitor ID.                                                                                                                                                                                                                                                                      |
