@@ -27,7 +27,7 @@ This project analyzes an **E-commerce dataset** stored in **Google BigQuery**.  
 | hits.product.productSKU             | STRING    | The product SKU (stock keeping unit).                                                                                                                                                                                                                                                       |
 | hits.product.v2ProductName          | STRING    | The product name, as supplied by the retailer.                                                                                                                                                                                                                                              |
 ----
-## Query 01: calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
+# Query 01: calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
 ```SQL
 SELECT
   format_date("%Y%m", parse_date("%Y%m%d", date)) as month,
@@ -39,12 +39,12 @@ WHERE _TABLE_SUFFIX BETWEEN '0101' AND '0331'
 GROUP BY 1
 ORDER BY 1;
 ```
-# Insight
+## Insight
 Traffic dipped in February 2017 but quickly recovered in March, with transactions showing strong growth (up from 713 in Jan to 993 in Mar).
 <img width="671" height="133" alt="Screenshot 2025-09-26 at 19 18 12" src="https://github.com/user-attachments/assets/e988fbf6-fb64-4b22-a6ce-10c95afe5809" />
 
 ---
-## Query 02: Bounce rate per traffic source in July 2017 
+# Query 02: Bounce rate per traffic source in July 2017 
 ```SQL
 SELECT
     trafficSource.source as source
@@ -155,18 +155,18 @@ ORDER BY total_visits DESC;
 | google.ca                   | 1            |               |                 |
 | kik.com                     | 1            | 1             | 100.00          |
 
-# Insights
+## Insights
 - **Google search** is the main traffic driver (38K+ visits) but has a moderate bounce rate (~52%).  
 - **Direct traffic** ranks second (19K visits) with a healthier bounce rate (~43%), showing stronger user intent.  
 - **YouTube** drives fewer visits (6K) but has a high bounce rate (~67%), suggesting less engaged users.  
 - **Social traffic** from Facebook (m.facebook.com, l.facebook.com) shows very high bounce rates (64–88%), indicating weak conversion potential.  
 - Some niche sources (e.g., **reddit.com, mail.google.com**) have lower bounce rates (<30%), meaning fewer users leave immediately.
-# Recommendations
+## Recommendations
 - Improve landing pages for high-bounce sources (YouTube, Facebook).  
 - Focus on SEO/SEM to lower Google bounce rate.  
 - Invest more in low-bounce, high-quality channels (e.g., Reddit, email).  
 ---
-## Query 3: Revenue by traffic source by week, by month in June 2017
+# Query 3: Revenue by traffic source by week, by month in June 2017
 ```SQL
 WITH revenue_bytime AS
 (
