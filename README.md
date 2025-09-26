@@ -259,7 +259,8 @@ ORDER BY revenue DESC, time_type, time;
 - Strengthen direct traffic loyalty with promotions and retention campaigns.
 - Invest more in Google search (SEO + ads) to boost scalable revenue.
 - Test ways to increase smaller channels’ ROI (e.g., email campaigns, partnerships).
-  ---
+
+---
 # Query 04: Average number of pageviews by purchaser type (purchasers vs non-purchasers) in June, July 2017.
 ```SQL
 with 
