@@ -251,11 +251,54 @@ ORDER BY revenue DESC, time_type, time;
 | Month     | 201706 | l.facebook.com     | 12.48       |
 | Week      | 201724 | l.facebook.com     | 12.48       |
 ## 🔍 Insights
-	•	Direct traffic dominates with the highest revenue (~97K in June, ~30K in peak week).
-	•	Google search is the second biggest driver (~18.7K monthly, ~9K in best week).
-	•	DFA provides moderate but consistent revenue (~8.8K monthly).
-	•	Other channels (mail.google.com, Bing, Yahoo, YouTube, Facebook) contribute small amounts.
+- Direct traffic dominates with the highest revenue (~97K in June, ~30K in peak week).
+- Google search is the second biggest driver (~18.7K monthly, ~9K in best week).
+- DFA provides moderate but consistent revenue (~8.8K monthly).
+- Other channels (mail.google.com, Bing, Yahoo, YouTube, Facebook) contribute small amounts.
 ## 💡 Recommendations
-	•	Strengthen direct traffic loyalty with promotions and retention campaigns.
-	•	Invest more in Google search (SEO + ads) to boost scalable revenue.
-	•	Test ways to increase smaller channels’ ROI (e.g., email campaigns, partnerships).
+- Strengthen direct traffic loyalty with promotions and retention campaigns.
+- Invest more in Google search (SEO + ads) to boost scalable revenue.
+- Test ways to increase smaller channels’ ROI (e.g., email campaigns, partnerships).
+  ---
+# Query 04: Average number of pageviews by purchaser type (purchasers vs non-purchasers) in June, July 2017.
+```SQL
+with 
+purchaser_data as(
+  select
+      format_date("%Y%m",parse_date("%Y%m%d",date)) as month,
+      (sum(totals.pageviews)/count(distinct fullvisitorid)) as avg_pageviews_purchase,
+  from `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
+    ,unnest(hits) hits
+    ,unnest(product) product
+  where _table_suffix between '0601' and '0731'
+  and totals.transactions>=1
+  and product.productRevenue is not null
+  group by month
+),
+
+non_purchaser_data as(
+  select
+      format_date("%Y%m",parse_date("%Y%m%d",date)) as month,
+      sum(totals.pageviews)/count(distinct fullvisitorid) as avg_pageviews_non_purchase,
+  from `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
+      ,unnest(hits) hits
+    ,unnest(product) product
+  where _table_suffix between '0601' and '0731'
+  and totals.transactions is null
+  and product.productRevenue is null
+  group by month
+)
+
+select
+    pd.*,
+    avg_pageviews_non_purchase
+from purchaser_data pd
+full join non_purchaser_data using(month)
+order by pd.month;
+```
+## 🔍 Insights
+- Purchasers view fewer pages than non-purchasers, but their pageviews increased from 94 → 124 between June and July.
+- Non-purchasers remain consistently high (317 → 334), showing more browsing without conversion.
+## 💡 Recommendations
+- Simplify purchase flow: Reduce steps to help non-purchasers convert earlier.
+- Enhance targeting: Focus on July’s rising purchaser engagement to keep momentum.
