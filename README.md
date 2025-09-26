@@ -39,9 +39,21 @@ WHERE _TABLE_SUFFIX BETWEEN '0101' AND '0331'
 GROUP BY 1
 ORDER BY 1;
 ```
-## Insight
-Traffic dipped in February 2017 but quickly recovered in March, with transactions showing strong growth (up from 713 in Jan to 993 in Mar).
-<img width="671" height="133" alt="Screenshot 2025-09-26 at 19 18 12" src="https://github.com/user-attachments/assets/e988fbf6-fb64-4b22-a6ce-10c95afe5809" />
+| Month  | Visits | Pageviews | Transactions |
+|--------|--------|-----------|--------------|
+| 201701 | 64,694 | 257,708   | 713          |
+| 201702 | 62,192 | 233,373   | 733          |
+| 201703 | 69,931 | 259,522   | 993          |
+
+### 🔍 Insights
+- Traffic dipped in February (visits & pageviews down) but transactions slightly increased (733 vs. 713).
+- March rebounded strongly, with highest visits (69,931) and transactions (993, +39% vs Jan).
+- Conversion quality improved over time, not just raw traffic volume.
+
+### 💡 Recommendations
+- Investigate February: lower traffic but stable conversions → find what kept purchase intent strong.
+- Replicate March’s success (campaigns, promotions, seasonality) to sustain growth.
+- Focus on conversion optimization rather than only increasing visits.
 
 ---
 # Query 02: Bounce rate per traffic source in July 2017 
@@ -155,13 +167,13 @@ ORDER BY total_visits DESC;
 | google.ca                   | 1            |               |                 |
 | kik.com                     | 1            | 1             | 100.00          |
 
-## Insights
+### 🔍 Insights
 - **Google search** is the main traffic driver (38K+ visits) but has a moderate bounce rate (~52%).  
 - **Direct traffic** ranks second (19K visits) with a healthier bounce rate (~43%), showing stronger user intent.  
 - **YouTube** drives fewer visits (6K) but has a high bounce rate (~67%), suggesting less engaged users.  
 - **Social traffic** from Facebook (m.facebook.com, l.facebook.com) shows very high bounce rates (64–88%), indicating weak conversion potential.  
 - Some niche sources (e.g., **reddit.com, mail.google.com**) have lower bounce rates (<30%), meaning fewer users leave immediately.
-## Recommendations
+### 💡 Recommendations
 - Improve landing pages for high-bounce sources (YouTube, Facebook).  
 - Focus on SEO/SEM to lower Google bounce rate.  
 - Invest more in low-bounce, high-quality channels (e.g., Reddit, email).  
@@ -250,12 +262,12 @@ ORDER BY revenue DESC, time_type, time;
 | Week      | 201724 | bing               | 13.98       |
 | Month     | 201706 | l.facebook.com     | 12.48       |
 | Week      | 201724 | l.facebook.com     | 12.48       |
-## 🔍 Insights
+### 🔍 Insights
 - Direct traffic dominates with the highest revenue (~97K in June, ~30K in peak week).
 - Google search is the second biggest driver (~18.7K monthly, ~9K in best week).
 - DFA provides moderate but consistent revenue (~8.8K monthly).
 - Other channels (mail.google.com, Bing, Yahoo, YouTube, Facebook) contribute small amounts.
-## 💡 Recommendations
+### 💡 Recommendations
 - Strengthen direct traffic loyalty with promotions and retention campaigns.
 - Invest more in Google search (SEO + ads) to boost scalable revenue.
 - Test ways to increase smaller channels’ ROI (e.g., email campaigns, partnerships).
@@ -302,9 +314,220 @@ order by pd.month;
 | 201706 | 94.02                      | 316.87                        |
 | 201707 | 124.24                     | 334.06                        |
 
-## 🔍 Insights
+### 🔍 Insights
 - Purchasers view fewer pages than non-purchasers, but their pageviews increased from 94 → 124 between June and July.
 - Non-purchasers remain consistently high (317 → 334), showing more browsing without conversion.
-## 💡 Recommendations
+### 💡 Recommendations
 - Simplify purchase flow: Reduce steps to help non-purchasers convert earlier.
 - Enhance targeting: Focus on July’s rising purchaser engagement to keep momentum.
+
+---
+# Query 05: Average number of transactions per user that made a purchase in July 2017
+```SQL
+select
+    format_date("%Y%m",parse_date("%Y%m%d",date)) as month,
+    sum(totals.transactions)/count(distinct fullvisitorid) as Avg_total_transactions_per_user
+from `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+    ,unnest (hits) hits,
+    unnest(product) product
+where  totals.transactions>=1
+and product.productRevenue is not null
+group by month;
+```
+| Month  | Avg. Transactions per User |
+|--------|-----------------------------|
+| 201707 | 4.16                        |
+
+### 🔍 Insight
+- In July 2017, each user made on average ~4 transactions, showing strong purchase activity.
+
+### 💡 Recommendations
+- Maintain this high engagement by offering loyalty rewards.
+- Explore ways to upsell/cross-sell to further boost average transactions.
+
+---
+# Query 06: Average amount of money spent per session. Only include purchaser data in July 2017
+```SQL
+select
+    format_date("%Y%m",parse_date("%Y%m%d",date)) as month,
+    ((sum(product.productRevenue)/sum(totals.visits))/power(10,6)) as avg_revenue_by_user_per_visit
+from `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+  ,unnest(hits) hits
+  ,unnest(product) product
+where product.productRevenue is not null
+  and totals.transactions>=1
+group by month;
+```
+| Month  | Avg. Revenue per User per Visit |
+|--------|----------------------------------|
+| 201707 | 43.86                            |
+### 🔍 Insight
+- In July 2017, each visit generated on average ~$43.9 revenue per user, indicating strong monetization efficiency.
+
+### 💡 Recommendations
+- Sustain high-value visits through targeted promotions.
+- Analyze top-converting segments to replicate success across other channels.
+
+  ---
+# Query 07: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered.
+```SQL with buyer_list as(
+    SELECT
+        distinct fullVisitorId  
+    FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+    , UNNEST(hits) AS hits
+    , UNNEST(hits.product) as product
+    WHERE product.v2ProductName = "YouTube Men's Vintage Henley"
+    AND totals.transactions>=1
+    AND product.productRevenue is not null
+)
+
+SELECT
+  product.v2ProductName AS other_purchased_products,
+  SUM(product.productQuantity) AS quantity
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+, UNNEST(hits) AS hits
+, UNNEST(hits.product) as product
+JOIN buyer_list using(fullVisitorId)
+WHERE product.v2ProductName != "YouTube Men's Vintage Henley"
+ and product.productRevenue is not null
+ AND totals.transactions>=1
+GROUP BY other_purchased_products
+ORDER BY quantity DESC;
+```
+| Product Name                                       | Quantity |
+|----------------------------------------------------|----------|
+| Google Sunglasses                                  | 20       |
+| Google Women's Vintage Hero Tee Black              | 7        |
+| SPF-15 Slim & Slender Lip Balm                     | 6        |
+| Google Women's Short Sleeve Hero Tee Red Heather   | 4        |
+| YouTube Men's Fleece Hoodie Black                  | 3        |
+| Google Men's Short Sleeve Badge Tee Charcoal       | 3        |
+| YouTube Twill Cap                                  | 2        |
+| Recycled Mouse Pad                                 | 2        |
+| Red Shine 15 oz Mug                                | 2        |
+| Google Doodle Decal                                | 2        |
+| Google Men's Short Sleeve Hero Tee Charcoal        | 2        |
+| Android Women's Fleece Hoodie                      | 2        |
+| 22 oz YouTube Bottle Infuser                       | 2        |
+| Android Men's Vintage Henley                       | 2        |
+| Android Wool Heather Cap Heather/Black             | 2        |
+| Crunch Noise Dog Toy                               | 2        |
+| Google Twill Cap                                   | 1        |
+| Google Men's Long & Lean Tee Grey                  | 1        |
+| Google Men's Long & Lean Tee Charcoal              | 1        |
+| Google Men's Vintage Badge Tee Black               | 1        |
+| YouTube Custom Decals                              | 1        |
+| Four Color Retractable Pen                         | 1        |
+| Google Laptop and Cell Phone Stickers              | 1        |
+| Google Men's Long Sleeve Raglan Ocean Blue         | 1        |
+| Google Men's Bike Short Sleeve Tee Charcoal        | 1        |
+| Google 5-Panel Cap                                 | 1        |
+| Google Toddler Short Sleeve T-shirt Grey           | 1        |
+| Android Sticker Sheet Ultra Removable              | 1        |
+| Google Men's Vintage Badge Tee White               | 1        |
+| Google Men's 100% Cotton Short Sleeve Hero Tee Red | 1        |
+| Android Men's Vintage Tank                         | 1        |
+| Android Men's Short Sleeve Hero Tee White          | 1        |
+| Android Men's Pep Rally Short Sleeve Tee Navy      | 1        |
+| YouTube Men's Short Sleeve Hero Tee Black          | 1        |
+| YouTube Women's Short Sleeve Hero Tee Charcoal     | 1        |
+| Google Men's Performance Full Zip Jacket Black     | 1        |
+| 26 oz Double Wall Insulated Bottle                 | 1        |
+| Google Men's Pullover Hoodie Grey                  | 1        |
+| YouTube Men's Short Sleeve Hero Tee White          | 1        |
+| Google Slim Utility Travel Bag                     | 1        |
+| Google Men's Zip Hoodie                            | 1        |
+| YouTube Men's Long & Lean Tee Charcoal             | 1        |
+| Android Men's Short Sleeve Hero Tee Heather        | 1        |
+| YouTube Women's Short Sleeve Tri-blend Badge Tee   | 1        |
+| Google Women's Long Sleeve Tee Lavender            | 1        |
+| YouTube Hard Cover Journal                         | 1        |
+| Android BTTF Moonshot Graphic Tee                  | 1        |
+| Google Men's Airflow 1/4 Zip Pullover Black        | 1        |
+| Google Men's Performance 1/4 Zip Pullover Heather  | 1        |
+| 8 pc Android Sticker Sheet                         | 1        |
+
+### 🔍 Insights
+- Google Sunglasses is the clear top seller (20 units), far ahead of other products.
+- Apparel items (t-shirts, hoodies, caps) dominate the product mix, showing strong demand for branded clothing.
+- Accessories and novelty items (lip balm, mugs, decals, mouse pads) sell in smaller but diverse quantities.
+
+### 💡 Recommendations
+- Stock more of high-demand items like Google Sunglasses and Hero Tees.
+- Promote mid-tier apparel (hoodies, caps) to boost their sales further.
+- Bundle small accessories (lip balm, mugs, stickers) to increase average order value.
+
+---
+# Query 08: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017. For example, 100% product view then 40% add_to_cart and 10% purchase.
+```SQL 
+WITH product_view AS
+(
+  SELECT 
+    FORMAT_DATE('%Y%m', SAFE.PARSE_DATE('%Y%m%d', date )) AS month
+    ,COUNT(product.V2ProductName) AS num_product_view
+  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`,
+  UNNEST (hits) AS hits,
+  UNNEST (hits.product) AS product
+  WHERE _TABLE_SUFFIX BETWEEN '0101' AND '0331'
+    AND hits.eCommerceAction.action_type ='2'
+    AND product.V2productName IS NOT NULL
+  GROUP BY month
+  ORDER BY month
+),
+  addtocart AS
+(
+  SELECT 
+    FORMAT_DATE('%Y%m', SAFE.PARSE_DATE('%Y%m%d', date )) AS month
+    ,COUNT(product.V2ProductName) AS num_addtocart
+  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`,
+  UNNEST (hits) AS hits,
+  UNNEST (hits.product) AS product
+  WHERE _TABLE_SUFFIX BETWEEN '0101' AND '0331'
+  AND hits.eCommerceAction.action_type ='3'
+  AND product.V2productName IS NOT NULL
+  GROUP BY month 
+  ORDER BY month 
+),
+  purchase AS 
+(
+  SELECT 
+    FORMAT_DATE('%Y%m', SAFE.PARSE_DATE('%Y%m%d', date )) AS month
+    ,COUNT(product.V2ProductName) AS num_purchase
+  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`,
+  UNNEST (hits) AS hits,
+  UNNEST (hits.product) AS product
+  WHERE _TABLE_SUFFIX BETWEEN '0101' AND '0331'
+  AND hits.eCommerceAction.action_type ='6'
+  AND product.V2productName IS NOT NULL
+  AND product.productRevenue IS NOT NULL
+  GROUP BY month
+  ORDER BY month 
+)
+
+SELECT 
+  a.month
+  ,p.num_product_view
+  ,a.num_addtocart
+  ,c.num_purchase
+  ,ROUND(100*(a.num_addtocart / p.num_product_view), 2) AS add_to_cart_rate
+  ,ROUND(100*(c.num_purchase / p.num_product_view), 2) AS purchase_rate
+FROM product_view AS p
+LEFT JOIN addtocart AS a  ON p.month = a.month
+LEFT JOIN purchase AS c ON p.month =c.month 
+ORDER BY month ASC;
+```
+| Month  | Product Views | Add to Cart | Purchases | Add-to-Cart Rate (%) | Purchase Rate (%) |
+|--------|---------------|-------------|-----------|-----------------------|-------------------|
+| 201701 | 25,787        | 7,342       | 2,143     | 28.47                 | 8.31              |
+| 201702 | 21,489        | 7,360       | 2,060     | 34.25                 | 9.59              |
+| 201703 | 23,549        | 8,782       | 2,977     | 37.29                 | 12.64             |
+
+### 🔍 Insights
+- Conversion efficiency improved steadily: add-to-cart rate rose from 28.5% → 37.3%, purchase rate from 8.3% → 12.6% (Jan → Mar).
+- Even with slightly fewer views in Feb–Mar, purchases increased significantly, showing stronger buyer intent.
+
+
+### 💡 Recommendations
+- Optimize product pages further to sustain rising add-to-cart behavior.
+- Leverage March tactics (e.g., promotions, UX changes) as best practices for future months.
+- Scale campaigns driving high-quality traffic instead of pure volume.
