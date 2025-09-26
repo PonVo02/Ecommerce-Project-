@@ -39,6 +39,6 @@ WHERE _TABLE_SUFFIX BETWEEN '0101' AND '0331'
 GROUP BY 1
 ORDER BY 1;
 ```
-
-
+### Insight
+Traffic dipped in February 2017 but quickly recovered in March, with transactions showing strong growth (up from 713 in Jan to 993 in Mar).
 <img width="671" height="133" alt="Screenshot 2025-09-26 at 19 18 12" src="https://github.com/user-attachments/assets/e988fbf6-fb64-4b22-a6ce-10c95afe5809" />
