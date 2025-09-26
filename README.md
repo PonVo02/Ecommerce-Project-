@@ -26,5 +26,5 @@ This project analyzes an **E-commerce dataset** stored in **Google BigQuery**.  
 | hits.product.productRevenue         | INTEGER   | Revenue associated with the product.                                                                                                                                                                                                                                                        |
 | hits.product.productSKU             | STRING    | The product SKU (stock keeping unit).                                                                                                                                                                                                                                                       |
 | hits.product.v2ProductName          | STRING    | The product name, as supplied by the retailer.                                                                                                                                                                                                                                              |
---
+----
 Query 01: calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
