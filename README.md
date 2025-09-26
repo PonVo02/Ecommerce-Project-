@@ -297,6 +297,11 @@ from purchaser_data pd
 full join non_purchaser_data using(month)
 order by pd.month;
 ```
+| Month  | Avg. Pageviews (Purchase) | Avg. Pageviews (Non-Purchase) |
+|--------|----------------------------|-------------------------------|
+| 201706 | 94.02                      | 316.87                        |
+| 201707 | 124.24                     | 334.06                        |
+
 ## 🔍 Insights
 - Purchasers view fewer pages than non-purchasers, but their pageviews increased from 94 → 124 between June and July.
 - Non-purchasers remain consistently high (317 → 334), showing more browsing without conversion.
