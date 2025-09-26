@@ -202,3 +202,60 @@ SELECT
 FROM revenue_bytime 
 ORDER BY revenue DESC, time_type, time;
 ```
+| Time Type | Time   | Source             | Revenue     |
+|-----------|--------|--------------------|-------------|
+| Month     | 201706 | (direct)           | 97333.62    |
+| Week      | 201724 | (direct)           | 30908.91    |
+| Week      | 201725 | (direct)           | 27295.32    |
+| Month     | 201706 | google             | 18757.18    |
+| Week      | 201723 | (direct)           | 17325.68    |
+| Week      | 201726 | (direct)           | 14914.81    |
+| Week      | 201724 | google             | 9217.17     |
+| Month     | 201706 | dfa                | 8862.23     |
+| Week      | 201722 | (direct)           | 6888.90     |
+| Week      | 201726 | google             | 5330.57     |
+| Week      | 201726 | dfa                | 3704.74     |
+| Month     | 201706 | mail.google.com    | 2563.13     |
+| Week      | 201724 | mail.google.com    | 2486.86     |
+| Week      | 201724 | dfa                | 2341.56     |
+| Week      | 201722 | google             | 2119.39     |
+| Week      | 201722 | dfa                | 1670.65     |
+| Week      | 201723 | dfa                | 1145.28     |
+| Week      | 201723 | google             | 1083.95     |
+| Week      | 201725 | google             | 1006.10     |
+| Month     | 201706 | search.myway.com   | 105.94      |
+| Week      | 201723 | search.myway.com   | 105.94      |
+| Month     | 201706 | groups.google.com  | 101.96      |
+| Week      | 201725 | mail.google.com    | 76.27       |
+| Month     | 201706 | chat.google.com    | 74.03       |
+| Week      | 201723 | chat.google.com    | 74.03       |
+| Month     | 201706 | dealspotr.com      | 72.95       |
+| Week      | 201724 | dealspotr.com      | 72.95       |
+| Month     | 201706 | mail.aol.com       | 64.85       |
+| Week      | 201725 | mail.aol.com       | 64.85       |
+| Week      | 201726 | groups.google.com  | 63.37       |
+| Month     | 201706 | phandroid.com      | 52.95       |
+| Week      | 201725 | phandroid.com      | 52.95       |
+| Month     | 201706 | sites.google.com   | 39.17       |
+| Week      | 201725 | groups.google.com  | 38.59       |
+| Week      | 201725 | sites.google.com   | 25.19       |
+| Month     | 201706 | google.com         | 23.99       |
+| Week      | 201725 | google.com         | 23.99       |
+| Month     | 201706 | yahoo              | 20.39       |
+| Week      | 201726 | yahoo              | 20.39       |
+| Month     | 201706 | youtube.com        | 16.99       |
+| Week      | 201723 | youtube.com        | 16.99       |
+| Month     | 201706 | bing               | 13.98       |
+| Week      | 201722 | sites.google.com   | 13.98       |
+| Week      | 201724 | bing               | 13.98       |
+| Month     | 201706 | l.facebook.com     | 12.48       |
+| Week      | 201724 | l.facebook.com     | 12.48       |
+## 🔍 Insights
+	•	Direct traffic dominates with the highest revenue (~97K in June, ~30K in peak week).
+	•	Google search is the second biggest driver (~18.7K monthly, ~9K in best week).
+	•	DFA provides moderate but consistent revenue (~8.8K monthly).
+	•	Other channels (mail.google.com, Bing, Yahoo, YouTube, Facebook) contribute small amounts.
+## 💡 Recommendations
+	•	Strengthen direct traffic loyalty with promotions and retention campaigns.
+	•	Invest more in Google search (SEO + ads) to boost scalable revenue.
+	•	Test ways to increase smaller channels’ ROI (e.g., email campaigns, partnerships).
