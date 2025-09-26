@@ -6,6 +6,7 @@ This project analyzes an **E-commerce dataset** stored in **Google BigQuery**.  
 - User behavior and sessions
 - Traffic sources 
 - Transactions &amp; revenue trends
+  
 | Field Name                          | Data Type | Description                                                                                                                                                                                                                                                                                 |
 |-------------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | fullVisitorId                       | STRING    | The unique visitor ID.                                                                                                                                                                                                                                                                      |
